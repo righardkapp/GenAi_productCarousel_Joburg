@@ -1,0 +1,119 @@
+<!--
+  GenAI (Exec) Masterclass — WooCommerce product description carousel
+  Paste this whole block into the product's Description field using the
+  "Custom HTML" block (Gutenberg) or the Text tab (Classic Editor).
+  Pure CSS — no <script> tags — so it survives wp_kses sanitisation.
+  All classes are prefixed "gwc-" to avoid clashing with your theme.
+-->
+<style>
+  .gwc-carousel { --gwc-bg:#03040f; --gwc-text:#e8eaf0; --gwc-muted:#a3aabf;
+    --gwc-accent:#4f8ef7; --gwc-accent2:#7c5ff5; --gwc-accent3:#1de0c6;
+    --gwc-heading:'Syne', sans-serif; --gwc-body:'Inter', sans-serif;
+    position:relative; max-width:640px; margin:1.5em auto; overflow:hidden;
+    border-radius:14px; border:1px solid rgba(255,255,255,0.09);
+    background:
+      radial-gradient(480px 340px at 15% 15%, rgba(79,142,247,0.30), transparent 60%),
+      radial-gradient(420px 320px at 90% 85%, rgba(124,95,245,0.26), transparent 60%),
+      radial-gradient(360px 260px at 80% 10%, rgba(29,224,198,0.16), transparent 60%),
+      var(--gwc-bg);
+    font-family: var(--gwc-body); color: var(--gwc-text);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .gwc-carousel *, .gwc-carousel *::before, .gwc-carousel *::after { box-sizing: border-box; }
+  .gwc-radio { position:absolute; opacity:0; pointer-events:none; }
+  .gwc-track { display:flex; width:300%; transition: transform .45s cubic-bezier(.65,0,.35,1); }
+  .gwc-slide { position:relative; flex:0 0 33.3333%; min-height:310px; padding: 34px 32px 56px; display:flex; flex-direction:column; justify-content:center; }
+  #gwc-s1:checked ~ .gwc-track { transform: translateX(0%); }
+  #gwc-s2:checked ~ .gwc-track { transform: translateX(-33.3333%); }
+  #gwc-s3:checked ~ .gwc-track { transform: translateX(-66.6666%); }
+
+  .gwc-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--gwc-accent3); font-weight:600; margin-bottom:14px; }
+  .gwc-eyebrow::before { content:''; width:18px; height:1px; background: var(--gwc-accent3); }
+  .gwc-h { font-family: var(--gwc-heading); font-weight:700; letter-spacing:-0.01em; color:#fff; line-height:1.18; margin:0 0 12px; font-size: clamp(20px, 3.4vw, 26px); }
+  .gwc-h small { display:block; font-family: var(--gwc-body); font-weight:600; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color: var(--gwc-muted); margin-bottom:8px; }
+  .gwc-p { font-size:14.5px; line-height:1.65; color: var(--gwc-muted); margin:0; max-width:46ch; }
+
+  .gwc-rows { display:flex; flex-direction:column; gap:14px; margin-top:4px; }
+  .gwc-row { display:flex; align-items:flex-start; gap:12px; }
+  .gwc-icon { flex:0 0 30px; width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .gwc-row-label { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color: var(--gwc-accent3); font-weight:600; margin-bottom:2px; }
+  .gwc-row-value { font-size:14.5px; color:#f0f2f8; font-weight:500; }
+
+  .gwc-list { list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:12px; }
+  .gwc-list li { display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:#f0f2f8; line-height:1.5; }
+  .gwc-check { flex:0 0 18px; height:18px; width:18px; margin-top:1px; border-radius:5px; background:linear-gradient(135deg, var(--gwc-accent), var(--gwc-accent2)); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; }
+
+  .gwc-dots { position:absolute; left:0; right:0; bottom:16px; display:flex; justify-content:center; gap:7px; z-index:3; }
+  .gwc-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.22); cursor:pointer; transition: background .25s, transform .25s; display:block; }
+  #gwc-s1:checked ~ .gwc-dots label[for="gwc-s1"],
+  #gwc-s2:checked ~ .gwc-dots label[for="gwc-s2"],
+  #gwc-s3:checked ~ .gwc-dots label[for="gwc-s3"] { background: var(--gwc-accent3); transform: scale(1.25); }
+
+  .gwc-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px; line-height:1; -webkit-user-select:none; user-select:none; }
+  .gwc-arrow:hover { background:rgba(255,255,255,0.14); }
+  .gwc-arrow-prev { left:14px; }
+  .gwc-arrow-next { right:14px; }
+
+  @media (max-width: 480px) {
+    .gwc-slide { padding: 28px 22px 52px; min-height:280px; }
+    .gwc-arrow { display:none; }
+  }
+</style>
+
+<div class="gwc-carousel">
+  <input type="radio" name="gwc-slide" id="gwc-s1" class="gwc-radio" checked>
+  <input type="radio" name="gwc-slide" id="gwc-s2" class="gwc-radio">
+  <input type="radio" name="gwc-slide" id="gwc-s3" class="gwc-radio">
+
+  <div class="gwc-track">
+
+    <!-- Slide 1 -->
+    <div class="gwc-slide">
+      <div class="gwc-eyebrow">Daily Maverick × Imagineers.ai</div>
+      <h3 class="gwc-h">You're one click away from transforming how you work.</h3>
+      <p class="gwc-p">The GenAI (Exec) Masterclass is a two-day immersive, hands-on learning experience brought to you by Daily Maverick and Imagineers.ai, crafted for professionals, business owners, and executives who are ready to move from AI-curious to AI-capable.</p>
+      <label for="gwc-s2" class="gwc-arrow gwc-arrow-next">›</label>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="gwc-slide">
+      <h3 class="gwc-h"><small>When &amp; where</small>12–13 October 2026</h3>
+      <div class="gwc-rows">
+        <div class="gwc-row">
+          <div class="gwc-icon">🕗</div>
+          <div>
+            <div class="gwc-row-label">Time</div>
+            <div class="gwc-row-value">8:00 am – 6:00 pm</div>
+          </div>
+        </div>
+        <div class="gwc-row">
+          <div class="gwc-icon">📍</div>
+          <div>
+            <div class="gwc-row-label">Place</div>
+            <div class="gwc-row-value">Workshop 17, Rosebank</div>
+          </div>
+        </div>
+      </div>
+      <label for="gwc-s1" class="gwc-arrow gwc-arrow-prev">‹</label>
+      <label for="gwc-s3" class="gwc-arrow gwc-arrow-next">›</label>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="gwc-slide">
+      <h3 class="gwc-h">What's included</h3>
+      <ul class="gwc-list">
+        <li><span class="gwc-check">✓</span> Two full days of intensive AI training</li>
+        <li><span class="gwc-check">✓</span> All meals (snacks and lunch)</li>
+        <li><span class="gwc-check">✓</span> Refreshments throughout both days</li>
+      </ul>
+      <label for="gwc-s2" class="gwc-arrow gwc-arrow-prev">‹</label>
+    </div>
+
+  </div>
+
+  <div class="gwc-dots">
+    <label for="gwc-s1" class="gwc-dot"></label>
+    <label for="gwc-s2" class="gwc-dot"></label>
+    <label for="gwc-s3" class="gwc-dot"></label>
+  </div>
+</div>
