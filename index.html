@@ -17,15 +17,15 @@
       radial-gradient(360px 260px at 80% 10%, rgba(29,224,198,0.16), transparent 60%),
       var(--gwc-bg);
     font-family: var(--gwc-body); color: var(--gwc-text);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
   }
   .gwc-carousel *, .gwc-carousel *::before, .gwc-carousel *::after { box-sizing: border-box; }
   .gwc-radio { position:absolute; opacity:0; pointer-events:none; }
-  .gwc-track { display:flex; width:300%; transition: transform .45s cubic-bezier(.65,0,.35,1); }
-  .gwc-slide { position:relative; flex:0 0 33.3333%; min-height:310px; padding: 34px 32px 56px; display:flex; flex-direction:column; justify-content:center; }
+  .gwc-track { display:flex; width:400%; transition: transform .45s cubic-bezier(.65,0,.35,1); }
+  .gwc-slide { position:relative; flex:0 0 25%; min-height:310px; padding: 34px 32px 56px; display:flex; flex-direction:column; justify-content:center; }
   #gwc-s1:checked ~ .gwc-track { transform: translateX(0%); }
-  #gwc-s2:checked ~ .gwc-track { transform: translateX(-33.3333%); }
-  #gwc-s3:checked ~ .gwc-track { transform: translateX(-66.6666%); }
+  #gwc-s2:checked ~ .gwc-track { transform: translateX(-25%); }
+  #gwc-s3:checked ~ .gwc-track { transform: translateX(-50%); }
+  #gwc-s4:checked ~ .gwc-track { transform: translateX(-75%); }
 
   .gwc-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--gwc-accent3); font-weight:600; margin-bottom:14px; }
   .gwc-eyebrow::before { content:''; width:18px; height:1px; background: var(--gwc-accent3); }
@@ -43,11 +43,21 @@
   .gwc-list li { display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:#f0f2f8; line-height:1.5; }
   .gwc-check { flex:0 0 18px; height:18px; width:18px; margin-top:1px; border-radius:5px; background:linear-gradient(135deg, var(--gwc-accent), var(--gwc-accent2)); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; }
 
+  .gwc-pricing { display:flex; flex-direction:column; gap:16px; margin-top:6px; }
+  .gwc-price-row { display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); }
+  .gwc-price-row:last-child { border-bottom:0; padding-bottom:0; }
+  .gwc-price-label { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color: var(--gwc-muted); font-weight:600; margin-bottom:4px; }
+  .gwc-price-sub { font-size:13px; color: var(--gwc-muted); line-height:1.5; max-width:32ch; }
+  .gwc-price-amount { font-family: var(--gwc-heading); font-weight:700; font-size:22px; color:#fff; white-space:nowrap; }
+  .gwc-price-was { font-size:13px; color: var(--gwc-muted); text-decoration:line-through; margin-left:6px; font-weight:500; }
+  .gwc-price-link { font-size:13px; color: var(--gwc-accent); text-decoration:underline; }
+
   .gwc-dots { position:absolute; left:0; right:0; bottom:16px; display:flex; justify-content:center; gap:7px; z-index:3; }
   .gwc-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.22); cursor:pointer; transition: background .25s, transform .25s; display:block; }
   #gwc-s1:checked ~ .gwc-dots label[for="gwc-s1"],
   #gwc-s2:checked ~ .gwc-dots label[for="gwc-s2"],
-  #gwc-s3:checked ~ .gwc-dots label[for="gwc-s3"] { background: var(--gwc-accent3); transform: scale(1.25); }
+  #gwc-s3:checked ~ .gwc-dots label[for="gwc-s3"],
+  #gwc-s4:checked ~ .gwc-dots label[for="gwc-s4"] { background: var(--gwc-accent3); transform: scale(1.25); }
 
   .gwc-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px; line-height:1; -webkit-user-select:none; user-select:none; }
   .gwc-arrow:hover { background:rgba(255,255,255,0.14); }
@@ -64,6 +74,7 @@
   <input type="radio" name="gwc-slide" id="gwc-s1" class="gwc-radio" checked>
   <input type="radio" name="gwc-slide" id="gwc-s2" class="gwc-radio">
   <input type="radio" name="gwc-slide" id="gwc-s3" class="gwc-radio">
+  <input type="radio" name="gwc-slide" id="gwc-s4" class="gwc-radio">
 
   <div class="gwc-track">
 
@@ -100,13 +111,37 @@
 
     <!-- Slide 3 -->
     <div class="gwc-slide">
+      <div class="gwc-eyebrow">Investment</div>
+      <h3 class="gwc-h">Two days that pay dividends for years</h3>
+      <div class="gwc-pricing">
+        <div class="gwc-price-row">
+          <div>
+            <div class="gwc-price-label">Maverick Insider Rate</div>
+            <div class="gwc-price-sub">Exclusive to Insiders contributing R200+/month. <span class="gwc-price-link">Become an Insider →</span></div>
+          </div>
+          <div class="gwc-price-amount">R19,000<span class="gwc-price-was">R21,500</span></div>
+        </div>
+        <div class="gwc-price-row">
+          <div>
+            <div class="gwc-price-label">Standard Rate</div>
+            <div class="gwc-price-sub">Same incredible experience, same inclusions.</div>
+          </div>
+          <div class="gwc-price-amount">R21,500</div>
+        </div>
+      </div>
+      <label for="gwc-s2" class="gwc-arrow gwc-arrow-prev">‹</label>
+      <label for="gwc-s4" class="gwc-arrow gwc-arrow-next">›</label>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="gwc-slide">
       <h3 class="gwc-h">What's included</h3>
       <ul class="gwc-list">
         <li><span class="gwc-check">✓</span> Two full days of intensive AI training</li>
         <li><span class="gwc-check">✓</span> All meals (snacks and lunch)</li>
         <li><span class="gwc-check">✓</span> Refreshments throughout both days</li>
       </ul>
-      <label for="gwc-s2" class="gwc-arrow gwc-arrow-prev">‹</label>
+      <label for="gwc-s3" class="gwc-arrow gwc-arrow-prev">‹</label>
     </div>
 
   </div>
@@ -115,5 +150,6 @@
     <label for="gwc-s1" class="gwc-dot"></label>
     <label for="gwc-s2" class="gwc-dot"></label>
     <label for="gwc-s3" class="gwc-dot"></label>
+    <label for="gwc-s4" class="gwc-dot"></label>
   </div>
 </div>
